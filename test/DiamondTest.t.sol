@@ -13,7 +13,7 @@ contract DiamondTest is Test {
         diamond = new Diamond(address(this));
     }
 
-    function testDiamondDeployment() public {
+    function testDiamondDeployment() public view {
         assertEq(address(diamond) != address(0), true);
     }
 }
