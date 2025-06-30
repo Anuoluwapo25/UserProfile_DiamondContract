@@ -15,6 +15,7 @@ contract LotteryVRF is VRFConsumerBaseV2, AutomationCompatibleInterface {
     address[] public players;
     uint256 private lastTimestamp;
     uint256 private interval = 5 minutes; 
+    address private recentWinner;
     
     constructor(address vrfCoordinatorV2, uint64 _subscriptionId, bytes32 _gasLane) 
     VRFConsumerBaseV2(vrfCoordinatorV2) {
@@ -44,9 +45,9 @@ contract LotteryVRF is VRFConsumerBaseV2, AutomationCompatibleInterface {
             3, 
             callbackGasLimit,
             1 
+        );
     }
     
-   
     function fulfillRandomWords(uint256, uint256[] memory randomWords) internal override {
         uint winnerIndex = randomWords[0] % players.length;
         address winner = players[winnerIndex];
@@ -58,4 +59,6 @@ contract LotteryVRF is VRFConsumerBaseV2, AutomationCompatibleInterface {
         players = new address[](0);
         lastTimestamp = block.timestamp;
     }
+
+   
 }
